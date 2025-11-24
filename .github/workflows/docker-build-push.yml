@@ -61,28 +61,12 @@ jobs:
           # Build the image
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           
-          # Always tag as latest
+          # Tag as latest
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
           
-          # Push the version tag
+          # Push both tags
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           
           echo "Image pushed: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
           echo "Image pushed: $ECR_REGISTRY/$ECR_REPOSITORY:latest"
-          
-          # If this is a semantic version release, also tag major and minor versions
-          if [[ "$IS_RELEASE" == "true" && "$IMAGE_TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            MAJOR="${BASH_REMATCH[1]}"
-            MINOR="${BASH_REMATCH[2]}"
-            
-            # Tag and push major version (e.g., v1)
-            docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:v$MAJOR
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:v$MAJOR
-            echo "Image pushed: $ECR_REGISTRY/$ECR_REPOSITORY:v$MAJOR"
-            
-            # Tag and push major.minor version (e.g., v1.2)
-            docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:v$MAJOR.$MINOR
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:v$MAJOR.$MINOR
-            echo "Image pushed: $ECR_REGISTRY/$ECR_REPOSITORY:v$MAJOR.$MINOR"
-          fi
