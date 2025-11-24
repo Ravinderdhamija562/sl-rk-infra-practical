@@ -12,5 +12,11 @@ crash.log
 #
 *.pkrvars.hcl
 
-# For built boxes
-*.box
+# terraform state
+*.tfstate
+*.tfstate.backup
+*.terraform
+
+# Personal files
+self-help.md
+

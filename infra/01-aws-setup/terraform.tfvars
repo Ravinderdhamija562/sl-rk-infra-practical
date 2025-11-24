@@ -1,0 +1,5 @@
+region      = "us-east-1"
+vpc_name    = "sl-eks-vpc"
+vpc_cidr    = "10.0.0.0/16"
+environment = "dev"
+ecr_repo_name = "sl-app-repo"
