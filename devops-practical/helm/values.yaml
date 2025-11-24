@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: 892099014844.dkr.ecr.us-east-1.amazonaws.com/sl-app-repo
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   tag: "latest"  # Can be overridden with specific version tag during deployment
 
 service:
