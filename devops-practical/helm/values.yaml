@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: devops-practical
+  repository: 892099014844.dkr.ecr.us-east-1.amazonaws.com/sl-app-repo
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "latest"  # Can be overridden with specific version tag during deployment
 
 service:
   type: ClusterIP
@@ -11,7 +11,9 @@ service:
   targetPort: 3000
 
 env:
-  mongodbUrl: "mongodb://mongo:27017/devops-practical"
+  # MongoDB connection string pointing to the MongoDB service in the mongodb namespace
+  # Format: mongodb://username:password@host:port/database
+  mongodbUrl: "mongodb://admin:CHANGE_ME_ADMIN_PASSWORD@mongodb.mongodb.svc.cluster.local:27017/admin"
 
 resources: {}
   # limits:

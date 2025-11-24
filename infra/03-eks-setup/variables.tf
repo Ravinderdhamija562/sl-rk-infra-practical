@@ -33,3 +33,33 @@ variable "access_entries" {
   type        = any
   default     = {}
 }
+
+variable "custom_ami_id" {
+  description = "Custom AMI ID for EKS worker nodes (leave empty to use default EKS-optimized AMI)"
+  type        = string
+  default     = ""
+}
+
+variable "node_group_instance_types" {
+  description = "List of instance types for the EKS managed node group"
+  type        = list(string)
+  default     = ["t3.small"]
+}
+
+variable "node_group_min_size" {
+  description = "Minimum number of nodes in the EKS managed node group"
+  type        = number
+  default     = 1
+}
+
+variable "node_group_max_size" {
+  description = "Maximum number of nodes in the EKS managed node group"
+  type        = number
+  default     = 2
+}
+
+variable "node_group_desired_size" {
+  description = "Desired number of nodes in the EKS managed node group"
+  type        = number
+  default     = 1
+}

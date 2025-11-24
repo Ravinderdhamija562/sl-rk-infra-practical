@@ -1,0 +1,40 @@
+---
+- name: Configure NTP on EKS Worker Nodes
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install chrony
+      yum:
+        name: chrony
+        state: present
+
+    - name: Configure chrony with AWS time servers
+      copy:
+        dest: /etc/chrony.conf
+        content: |
+          # Use Amazon Time Sync Service
+          server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
+          
+          # Use public NTP servers as fallback
+          pool 2.amazon.pool.ntp.org iburst
+          
+          # Record the rate at which the system clock gains/losses time
+          driftfile /var/lib/chrony/drift
+          
+          # Allow the system clock to be stepped in the first three updates
+          makestep 1.0 3
+          
+          # Enable kernel synchronization of the real-time clock (RTC)
+          rtcsync
+          
+          # Specify directory for log files
+          logdir /var/log/chrony
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Enable and start chrony service
+      systemd:
+        name: chronyd
+        enabled: yes
+        state: started

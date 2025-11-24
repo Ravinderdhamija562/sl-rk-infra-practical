@@ -1,0 +1,58 @@
+# Production values for MongoDB Helm chart
+# This file is intended for a production deployment using the official Bitnami MongoDB chart.
+# Adjust storage class, size, and credentials as needed for your environment.
+
+replicaCount: 1
+
+# Enable authentication and set admin credentials (change passwords securely)
+auth:
+  enabled: true
+  rootPassword: "CHANGE_ME_ROOT_PASSWORD"
+  usernames:
+    - "admin"
+  passwords:
+    - "CHANGE_ME_ADMIN_PASSWORD"
+  databases:
+    - "admin"
+
+# Persistence settings (ensure you have a suitable StorageClass)
+persistence:
+  enabled: true
+  storageClass: "gp2"   # Adjust to your preferred storage class
+  size: 20Gi
+  accessModes:
+    - ReadWriteOnce
+
+# Resource requests and limits for production workloads
+resources:
+  limits:
+    cpu: "1"
+    memory: "1.5Gi"
+  requests:
+    cpu: "250m"
+    memory: "1Gi"
+
+# Service configuration (ClusterIP for internal use, optionally LoadBalancer)
+service:
+  type: ClusterIP
+  port: 27017
+
+# Enable TLS for secure connections (requires certs to be provided via secret)
+#tls:
+#  enabled: true
+#  existingSecret: "mongodb-tls-secret"
+
+# Node selector, tolerations, and affinity for production placement
+nodeSelector: {}
+
+tolerations: []
+
+# Metrics exporter (optional, for Prometheus)
+metrics:
+  enabled: false
+
+# Backup configuration (using sidecar for snapshots)
+backup:
+  enabled: false
+
+# Additional custom configuration can be added below as needed.
