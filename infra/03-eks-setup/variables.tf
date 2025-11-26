@@ -63,3 +63,9 @@ variable "node_group_desired_size" {
   type        = number
   default     = 1
 }
+
+variable "cluster_endpoint_public_access_cidrs" {
+  description = "List of CIDR blocks that can access the public API server endpoint"
+  type        = list(string)
+  default     = ["49.43.132.236/32"]
+}
